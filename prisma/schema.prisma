@@ -7,10 +7,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String    @id @default(uuid())
+  username  String    @unique @db.VarChar(15)
+  email     String    @unique @db.VarChar(50)
+  password  String    @db.VarChar(60)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Session   Session[]
+}
+
 model Person {
-  id          String   @id @default(uuid())
+  id          String       @id @default(uuid())
   name        String
   description String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  Avaliation  Avaliation[]
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  User      User     @relation(fields: [userId], references: [id])
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Avaliation {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  personId    String?
+  Person      Person?   @relation(fields: [personId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

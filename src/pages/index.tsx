@@ -1,15 +1,11 @@
-import Head from 'next/head'
-import Logo from '@/components/Logo'
-import Image from 'next/image'
 import CategoryLink from '@/components/Category';
 import { prisma } from '@/config/database';
 import ResourcesGrid from '@/components/PeopleGrid';
 import { Person } from '@prisma/client';
-import Header from '../../layouts/Header';
 import Layout from '../../layouts/Layout';
 
 export async function getServerSideProps() {
-  const people = await prisma.person.findMany();
+  const people = await prisma.avaliation.findMany();
   return {
     props: {
       people: JSON.parse(JSON.stringify(people))
